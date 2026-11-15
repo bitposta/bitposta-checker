@@ -3,15 +3,17 @@
 نسخه و کد نصب:
 
 ```text
-1.1.12
-versionCode: 18
+1.1.13
+versionCode: 19
 ```
 
-این نسخه جدول هزینه‌ها را با قرارداد تازهٔ سایت هم‌خوان می‌کند: کارمزد واقعی تهیهٔ بیت‌کوین.
+این نسخه نشانی منبع نرخ را به میزبان تازه‌اش تغییر می‌دهد.
+
+منبع نرخ قیمت از نشانی پیشین به میزبان تازه منتقل شده است. میزبان قدیمی اتصال را می‌پذیرفت ولی هیچ پاسخی نمی‌داد، پس خواندن نرخ شکست می‌خورد و صفحهٔ هزینه‌ها خالی می‌ماند. میزبان تازه همان داده را با همان ساختار برمی‌گرداند، بنابراین فقط نشانی عوض شده است. منبع پیشنهاد کارمزد شبکه تغییری نکرده است.
 
 هزینه‌ها: مواد پاکت پنج سنت (مهر سه، کاغذ یک و چاپ یک) همیشه حساب می‌شود. در ارسال پستی، پاکت شش سنت و پست هفتاد و پنج سنت هم می‌آید؛ در تحویل حضوری فقط همان مواد می‌ماند، چون ارسالی انجام نمی‌شود. برچسب دوازده سنت است. حداقل بسته از پانصد و یک ساتوشی شروع می‌شود و سقف جدول سه میلیون تومان است.
 
-تغییر اصلی این نسخه، دو کارمزد ثابت تهیهٔ بیت‌کوین است که پیش‌تر در جدول نبود. نرخ بیت‌کوین اکنون یک درصد کارمزد صرافی دارد، چون دو کارمزد نیم‌درصدی جدا پرداخت می‌شود: یکی هنگام خرید کوین و یکی هنگام تبدیل آن به بیت‌کوین. این یک درصد فقط یک بار روی نرخ اعمال می‌شود، نه روی اصل مبلغ. علاوه بر آن، کارمزد تبدیل دو سنت و کارمزد انتقال بیت‌کوین چهارصد و بیست‌وسه ساتوشی است. این دو به انتخاب سرعت شبکه وابسته نیستند؛ فقط هزینهٔ شبکهٔ تحویل با انتخاب اقتصادی، متوسط یا سریع عوض می‌شود. نرخ تتر تعدیل نمی‌شود.
+نرخ بیت‌کوین یک درصد کارمزد صرافی دارد، چون دو کارمزد نیم‌درصدی جدا پرداخت می‌شود: یکی هنگام خرید کوین و یکی هنگام تبدیل آن به بیت‌کوین. این یک درصد فقط یک بار روی نرخ اعمال می‌شود، نه روی اصل مبلغ. علاوه بر آن، کارمزد تبدیل دو سنت و کارمزد انتقال بیت‌کوین چهارصد و بیست‌وسه ساتوشی است. این دو به انتخاب سرعت شبکه وابسته نیستند؛ فقط هزینهٔ شبکهٔ تحویل با انتخاب اقتصادی، متوسط یا سریع عوض می‌شود. نرخ تتر تعدیل نمی‌شود.
 
 برنامه پاسخ نرخ را پیش از نمایش اعتبارسنجی می‌کند: نام کلیدهای هزینه (`convert_sats`، `transfer_sats`، `materials_sats`، `envelope_sats`، `post_sats` و `operator_toman`)، تعداد ردیف‌ها، و برابری هر ردیف با محاسبهٔ همان نرخ. پاسخ ناسازگار کنار گذاشته می‌شود و هیچ قیمت صفر یا جایگزینی ساخته نمی‌شود. برنامه هر دو قرارداد را می‌شناسد: اگر سرور هنوز جدول قدیمی را بدهد، همان را با مدل قدیم می‌خواند و کارمزد غایب را صفر فرض نمی‌کند.
 
@@ -21,7 +23,9 @@ versionCode: 18
 
 خواندن برچسب: حالت خوانندهٔ NFC پس از خواندن روشن می‌ماند و فقط با خروج از صفحه آزاد می‌شود. اگر میدان در همان لحظه که برچسب روی گوشی است آزاد شود، اندروید لینک ذخیره‌شده روی برچسب را به مرورگر می‌دهد، این صفحه متوقف می‌شود و نتیجهٔ خواندن از دست می‌رود. هر خواندن نشانهٔ یکتای خودش را دارد و پاسخ دیررسِ خواندن قدیمی کنار گذاشته می‌شود؛ نتیجهٔ تازه را بازنویسی نمی‌کند و درخواستی را که کاربر لغو کرده دوباره فعال نمی‌کند. گارد این رفتار در `core` آزمون رفتاری دارد، نه فقط آزمون متن.
 
-The customer app now matches the site's new cost contract, which charges the real bitcoin acquisition cost. The bitcoin rate carries a 1% exchange markup because two separate 0.5% fees are paid (buying the coin, then converting it to bitcoin); the markup is applied once to the rate, never to the principal. Two fixed fees are added: a two-cent conversion charge and a 423-satoshi bitcoin transfer. Neither depends on the selected network speed — only the delivery network fee follows economy/medium/fast. The tether rate is not marked up. Card materials 0.05 USD (0.03 seal, 0.01 paper, 0.01 print) are always charged, postal delivery adds a 0.06 USD envelope and 0.75 USD postage, hand delivery drops only those two, and the tag is 0.12 USD. The smallest package starts at 501 satoshis and the table ceiling is 3,000,000 toman. Every market response is validated before it is shown — the cost key names (`convert_sats`, `transfer_sats`, `materials_sats`, `envelope_sats`, `post_sats`), the row count, and each row against the same rates — and a mismatching response is dropped instead of being rendered with a zero or invented price. Both contracts are understood: an older server table is read with the legacy model rather than treating the absent fees as zero.
+This release moves the price source to its new host. The old host accepted the connection but never answered, so the market read failed and the costs screen showed nothing. The new host returns the same payload shape, so only the URL changed; the network-fee source is unchanged.
+
+The bitcoin rate carries a 1% exchange markup because two separate 0.5% fees are paid (buying the coin, then converting it to bitcoin); the markup is applied once to the rate, never to the principal. Two fixed fees are added: a two-cent conversion charge and a 423-satoshi bitcoin transfer. Neither depends on the selected network speed — only the delivery network fee follows economy/medium/fast. The tether rate is not marked up. Card materials 0.05 USD (0.03 seal, 0.01 paper, 0.01 print) are always charged, postal delivery adds a 0.06 USD envelope and 0.75 USD postage, hand delivery drops only those two, and the tag is 0.12 USD. The smallest package starts at 501 satoshis and the table ceiling is 3,000,000 toman. Every market response is validated before it is shown — the cost key names (`convert_sats`, `transfer_sats`, `materials_sats`, `envelope_sats`, `post_sats`), the row count, and each row against the same rates — and a mismatching response is dropped instead of being rendered with a zero or invented price. Both contracts are understood: an older server table is read with the legacy model rather than treating the absent fees as zero.
 
 The costs screen is reachable from the home screen, and the postal/hand-delivery choice lives on that screen.
 
