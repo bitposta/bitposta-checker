@@ -284,4 +284,28 @@ public class LookupClientTest {
         assertEquals("https://mempool.space/address/" + ADDRESS, LookupClient.explorerUrl(ADDRESS));
         assertThrows(IllegalArgumentException.class, () -> LookupClient.explorerUrl("https://evil.example/"));
     }
+    /**
+     * The three public explorers are built locally from any valid address, in display order, so an
+     * address the site does not hold still has a way to be seen without the app inventing a balance.
+     */
+    @Test public void threeExplorersAreBuiltLocallyForAnyValidAddress() {
+        String other = "bc1qqyqszqgpqyqszqgpqyqszqgpqyqszqgpyfl4f3";
+        for (String address : new String[]{ADDRESS, other}) {
+            java.util.List<LookupClient.Explorer> explorers = LookupClient.explorers(address);
+            assertEquals(3, explorers.size());
+            assertEquals("mempool.space", explorers.get(0).name);
+            assertEquals("https://mempool.space/address/" + address, explorers.get(0).url);
+            assertEquals("blockstream.info", explorers.get(1).name);
+            assertEquals("https://blockstream.info/address/" + address, explorers.get(1).url);
+            assertEquals("blockchain.com", explorers.get(2).name);
+            assertEquals("https://blockchain.com/explorer/addresses/btc/" + address, explorers.get(2).url);
+            // The single-link helper stays the first explorer, so old callers keep the same target.
+            assertEquals(explorers.get(0).url, LookupClient.explorerUrl(address));
+        }
+    }
+    @Test public void explorersRejectAnythingThatIsNotAValidAddress() {
+        for (String bad : new String[]{null, "", "bc1qtestonly", "https://evil.example/", "bc1qzmtrqsfuaf6l6kkcsseumq26ukaphfj9skkug6"}) {
+            assertThrows(IllegalArgumentException.class, () -> LookupClient.explorers(bad));
+        }
+    }
 }

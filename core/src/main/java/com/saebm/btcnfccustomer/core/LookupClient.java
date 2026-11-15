@@ -371,9 +371,30 @@ public final class LookupClient {
         return Long.parseLong(value);
     }
 
+    /**
+     * One public block explorer the card may offer for an address. The name is the explorer's own
+     * brand, shown as an LTR line; the URL is built locally from the validated address.
+     */
+    public static final class Explorer {
+        public final String name, url;
+        private Explorer(String name, String url) { this.name = name; this.url = url; }
+    }
+
+    /**
+     * The public explorers offered for any valid address, in display order. Built locally from the
+     * validated address, never taken from the site, so an unregistered address still has a way to be
+     * seen without the app inventing a balance.
+     */
+    public static java.util.List<Explorer> explorers(String address) {
+        if (!BitcoinAddress.isValid(address)) throw new IllegalArgumentException("Invalid address");
+        return java.util.Collections.unmodifiableList(Arrays.asList(
+            new Explorer("mempool.space", "https://mempool.space/address/" + address),
+            new Explorer("blockstream.info", "https://blockstream.info/address/" + address),
+            new Explorer("blockchain.com", "https://blockchain.com/explorer/addresses/btc/" + address)));
+    }
+
     /** Explorer link is built locally from the validated address, never taken from the site. */
     public static String explorerUrl(String address) {
-        if (!BitcoinAddress.isValid(address)) throw new IllegalArgumentException("Invalid address");
-        return "https://mempool.space/address/" + address;
+        return explorers(address).get(0).url;
     }
 }
