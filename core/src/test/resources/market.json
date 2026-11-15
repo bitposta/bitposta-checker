@@ -3893,7 +3893,7 @@
   "status": "fresh",
   "fetched_at": "2026-11-01T00:00:00+00:00",
   "source": {
-    "prices": "https://swapwallet.app/api/v1/market/prices",
+    "prices": "https://portal.swapwallet.app/api/v1/market/prices",
     "fees": "https://mempool.space/api/v1/fees/recommended"
   }
 }

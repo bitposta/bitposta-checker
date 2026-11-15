@@ -9,7 +9,7 @@ import java.util.Map;
 
 /** Validated server tables, with conservative server age plus monotonic local aging. */
 public final class MarketResponse {
-    public static final String PRICES="https://swapwallet.app/api/v1/market/prices";
+    public static final String PRICES="https://portal.swapwallet.app/api/v1/market/prices";
     public static final String FEES="https://mempool.space/api/v1/fees/recommended";
     public final String fetchedAt;
     private final boolean serverFresh;

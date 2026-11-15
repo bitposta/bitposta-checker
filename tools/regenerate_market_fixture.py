@@ -27,7 +27,7 @@ RAW_RATES = {"btc_toman": "10000000000", "usdt_toman": "100000"}
 FEE_RATES = {"economy": "1.1", "medium": "2", "fast": "5"}
 FETCHED_AT = "2026-11-01T00:00:00+00:00"
 SOURCE = {
-    "prices": "https://swapwallet.app/api/v1/market/prices",
+    "prices": "https://portal.swapwallet.app/api/v1/market/prices",
     "fees": "https://mempool.space/api/v1/fees/recommended",
 }
 
