@@ -1,25 +1,25 @@
 {
   "version": 1,
-  "fetched_at": "2026-11-17T08:15:28+00:00",
-  "source_sha256": "0bf20ae21022bb911fd8a87886ce22310271a71e69ba9aaaf70103b11e3cf9d6",
+  "fetched_at": "2026-11-17T11:38:10+00:00",
+  "source_sha256": "875e91109eff1efdb0c0699d2d5cb348ff3b70c50f3e87e848bc557eddb92146",
   "security_source": "security.html",
   "sources": {
-    "base.html": "d694bdf6eb9bcdecd80d14410139efbb98ac5f1ee513202a381b1ae54791c597",
-    "contact.html": "bbb7d3f7b6ab0e0451c013df56975de84cde357d70d34826dbbf491c2cf9a16e",
+    "base.html": "3fd80489cbbdcf71e446b16a04f4269bc36bee2863a6e77498ca523fb9c4bd1c",
+    "contact.html": "b6103dc5afb35cae6dee14d3c092f6763a3481236944cb6fa25949d0b469d956",
     "guide.html": "7917078c668880f1bf6b105bebe0b289776efca420e4ea34e62bcd1d3c6d9b3f",
-    "terms.html": "e8ed62f15dfba4e615a984ec09c13788d0cf3ed1e59a3eb8f09e79d10f7cb5da",
-    "security.html": "b4a68f25820374e22b3fad717f9dc19d9213e6a9911a405760656fcea16c0a7e",
-    "_wallet_safety.html": "ccd9ee524873c37f5752464b639149d450c577ffedffb2bfc588dd8506608bb9",
+    "terms.html": "4445cbf986737f8a1acff85a3c590ef2ea5b3673c805f2c91ac901f02846ccc9",
+    "security.html": "0bf259de54277a30352d6502a49ba40fc136efefa78444f795efb5b3e1c626e9",
+    "_wallet_safety.html": "e50b8c54f3765cbc17808efc49051b7fbc6affa71fd46732b6a53b4f0ecdbd70",
     "_purchase_warning.html": "3851a25f2a2e975a4c08f912ee1fc7a276e4d72e3f025e401313d917f59f2dd1",
     "_payment_details.html": "73759baafd8f3e8ab8491ddcf1404db3605b84f875071fb6af0c8dd56bde5da5"
   },
   "pages": {
-    "guide": "0fcee558e74b15bdeb2e2ec0830dc49074cd06b4d7a334ba1a3bac2528119f25",
-    "terms": "aca8fab3ac61868de5aaef611531f80fdb34fd0536ac4df806e669b0ce878dfc",
-    "payment": "671a92e6a48139e90ec23f74a40d49c9d928e028d383eaabde3a6f9036f52a1d",
-    "security": "37b6b0e1daf1762e5a54f1b6d5b052079f038ebf12be76236453ae3d10be9a86"
+    "guide": "9422c9c0f6ff2df596c6490d0a8f72fe2afdb1695135741f97a0a854f81737e7",
+    "terms": "dd0d2e2ef52ecdd9630b2efadb85afd1255554db2128597fdb1b633b04fc9ff4",
+    "payment": "9de980e47e3a00b3e22886a28844a4d22073da560e7dcb4fcaa304beb0777528",
+    "security": "0fe1a5f425cf712e7a02a7a018c7a35a1906972f6c8f20d971505caa7582564a"
   },
   "images_bundled": false,
   "prices_bundled": false,
-  "contact_links_sha256": "7ecfe3ddd710c796048f61a7aa4bc42009194da0fe38d794c4ad00b0d3f5f203"
+  "contact_links_sha256": "257ee73663566b4611eac1c6cbeb1829a11841a5ac848d936e59a2a2d15d868a"
 }

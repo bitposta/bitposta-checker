@@ -9,7 +9,7 @@ args = parser.parse_args()
 if not args.serial.startswith('emulator-'):
     parser.error('This runner only permits a disposable emulator, never a physical phone')
 adb = ['adb', '-s', args.serial]
-for apk in ['app/build/outputs/apk/debug/btc4fun-debug.apk', 'app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk']:
+for apk in ['app/build/outputs/apk/debug/bitposta-debug.apk', 'app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk']:
     subprocess.run(adb + ['install', '-r', apk], check=True, timeout=60)
 result = subprocess.run(adb + ['shell', 'am', 'instrument', '-w', 'com.saebm.btcnfccustomer.debug.test/com.saebm.btcnfccustomer.VisualInstrumentation'], text=True, capture_output=True, timeout=180)
 print(result.stdout)

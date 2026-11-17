@@ -60,10 +60,10 @@ def contact_links(source):
                 self.hrefs.extend(value for key, value in attrs if key == 'href')
     parser = Links()
     parser.feed(source)
-    patterns = {'email': r'mailto:[A-Za-z0-9_.+-]+@btc4\.fun',
-                'telegram': r'https://t\.me/[A-Za-z0-9_]+',
+    patterns = {'email': r'mailto:[A-Za-z0-9_.+-]+@bitposta\.com',
+                'telegram': r'https://t\.me/[A-Za-z0-9_.]+',
                 'instagram': r'https://www\.instagram\.com/[A-Za-z0-9_.]+/',
-                'x': r'https://x\.com/[A-Za-z0-9_]+'}
+                'x': r'https://x\.com/[A-Za-z0-9_.]+'}
     result = {'website': 'https://btc.saeb.id.ir/', 'form': 'https://btc.saeb.id.ir/contact'}
     for name, pattern in patterns.items():
         matches = [url for url in parser.hrefs if re.fullmatch(pattern, url)]

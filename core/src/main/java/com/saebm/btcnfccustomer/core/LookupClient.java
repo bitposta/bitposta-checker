@@ -29,8 +29,8 @@ import okhttp3.ResponseBody;
  */
 public final class LookupClient {
     /** The only image host the customer app accepts; anything else is dropped, not shown. */
-    public static final String IMAGE_HOST = "btc4.fun";
-    public static final String LOOKUP_PREFIX = "https://btc4.fun/s/";
+    public static final String IMAGE_HOST = "bitposta.com";
+    public static final String LOOKUP_PREFIX = "https://bitposta.com/s/";
     /** The most public links the card will show; the site caps the same way. */
     public static final int MAX_LINKS = 20;
     /** A link label is a slug or short human text, matching the site's limit. */
@@ -92,11 +92,11 @@ public final class LookupClient {
     private volatile Call running;
     private volatile boolean cancelled;
 
-    public LookupClient() { this(Client.http(), "https://btc4.fun/", System::currentTimeMillis, System::nanoTime); }
+    public LookupClient() { this(Client.http(), "https://bitposta.com/", System::currentTimeMillis, System::nanoTime); }
     /** Production instance for callers that must not see the transport types (okhttp is core-only). */
     public static LookupClient production() { return new LookupClient(); }
     /** Instance whose clock is the Android monotonic clock, still on the fixed origin. */
-    public static LookupClient production(LongSupplier monotonic) { return new LookupClient(Client.http(), "https://btc4.fun/", System::currentTimeMillis, monotonic); }
+    public static LookupClient production(LongSupplier monotonic) { return new LookupClient(Client.http(), "https://bitposta.com/", System::currentTimeMillis, monotonic); }
     public static LookupClient forCalls(Call.Factory calls, String base) {
         return new LookupClient(calls, base, System::currentTimeMillis, System::nanoTime);
     }

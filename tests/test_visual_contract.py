@@ -42,7 +42,7 @@ class VisualContract(unittest.TestCase):
         match = re.search(r'trimmed.matches\((".*?")\)', source).group(1)
         code = '''class ParagraphContract {
           public static void main(String[] args) {
-            String body="راهنما\\n\\n6219861819062158\\n \\nhttps://btc4.fun/costs";
+            String body="راهنما\\n\\n6219861819062158\\n \\nhttps://bitposta.com/costs";
             String[] parts=body.split(SPLIT);
             if(parts.length!=3) throw new AssertionError("paragraph count");
             for(int i=0;i<parts.length;i++) {

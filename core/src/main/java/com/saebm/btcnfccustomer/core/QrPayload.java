@@ -9,7 +9,7 @@ import java.util.*;
 public final class QrPayload {
     public enum Kind { BITCOIN_ADDRESS, BITCOIN_URI, ALLOWLISTED_HTTPS_URL, UNTRUSTED, INVALID }
     public static final class Result { public final Kind kind; public final String value; private Result(Kind k,String v){kind=k;value=v;} }
-    private static final Set<String> HOSTS=new HashSet<>(Arrays.asList("btc.saeb.id.ir","btc4.fun","bitcoin4.fun","b.tc4fun.ir"));
+    private static final Set<String> HOSTS=new HashSet<>(Arrays.asList("btc.saeb.id.ir","bitposta.com"));
     private QrPayload() { }
     public static Result classify(String payload) {
         if(payload==null||payload.isEmpty()||payload.length()>2048||!payload.equals(payload.trim())

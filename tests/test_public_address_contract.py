@@ -27,7 +27,7 @@ def method_body(source, name):
 class PublicAddressContract(unittest.TestCase):
     def test_only_verified_tag_endpoint_is_documented_for_balance_lookup(self):
         readme = (ROOT / "README.md").read_text()
-        self.assertIn("GET https://btc4.fun/api/tags/{UID}", readme)
+        self.assertIn("GET https://bitposta.com/api/tags/{UID}", readme)
         self.assertNotIn("/api/address/", readme)
         self.assertNotIn("/api/balance", readme)
 
@@ -42,12 +42,12 @@ class PublicAddressContract(unittest.TestCase):
         self.assertIn("SERIAL_PATTERN", policy)
         self.assertIn("validSerial", policy)
         # Both URLs are pinned to the one fixed origin; no host is ever taken from input.
-        self.assertIn("https://btc4.fun/api/wallets/", policy)
-        self.assertIn("https://btc4.fun/api/addresses/", policy)
+        self.assertIn("https://bitposta.com/api/wallets/", policy)
+        self.assertIn("https://bitposta.com/api/addresses/", policy)
 
     def test_image_host_is_allowlisted_and_never_loaded_in_app(self):
         source = (ROOT / "core/src/main/java/com/saebm/btcnfccustomer/core/LookupClient.java").read_text()
-        self.assertIn('IMAGE_HOST = "btc4.fun"', source)
+        self.assertIn('IMAGE_HOST = "bitposta.com"', source)
         activity = (ROOT / "app/src/main/java/com/saebm/btcnfccustomer/MainActivity.java").read_text()
         # Decision 2: the image is offered as a link after consent, never fetched into the app.
         self.assertNotIn("ImageView(this)", activity.split("renderLookup")[-1])

@@ -14,7 +14,7 @@ class ContactDestinationContract(unittest.TestCase):
         links = json.loads((ROOT / 'app/src/main/assets/public/contact-links.json').read_text())
         for url in links.values():
             self.assertIsNotNone(re.fullmatch(pattern, url), url)
-        for url in ['https://evil.example/contact', 'https://btc.saeb.id.ir.evil.example/', 'https://btc.saeb.id.ir/?uid=123', 'https://btc4.fun/contact']:
+        for url in ['https://evil.example/contact', 'https://btc.saeb.id.ir.evil.example/', 'https://btc.saeb.id.ir/?uid=123', 'https://bitposta.com/contact']:
             self.assertIsNone(re.fullmatch(pattern, url), url)
         # The deleted market instrumentation used to repeat the allowlist proof; the
         # real contract is asserted above. What remains to pin is that showContact

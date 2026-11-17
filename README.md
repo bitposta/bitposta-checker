@@ -1,6 +1,6 @@
 # برنامهٔ مشتری بیت‌کوین
 
-btc4fun
+bitposta
 
 برنامهٔ اندرویدی فارسی برای خواندن شناسهٔ برچسب و دیدن اطلاعات نشانی عمومی مرتبط، فقط با اجازهٔ شما. این برنامه کیف پول نیست؛ اصالت برچسب، مالکیت، پرداخت یا امکان خرج‌کردن موجودی را تضمین نمی‌کند.
 
@@ -45,7 +45,7 @@ Android 8 / API 26
 
 فایل امضاشده را از بخش انتشارهای مخزن دریافت کنید. وجود این راهنما به معنی انجام‌شدن انتشار نیست؛ وضعیت واقعی را در همان صفحه بررسی کنید.
 
-[v1.1.15](https://github.com/btc4-fun/btc-tag-checker/releases/tag/v1.1.15)
+[v1.1.15](https://github.com/bitposta/bitposta-checker/releases/tag/v1.1.15)
 
 ### هشدار Play Protect هنگام نصب
 
@@ -56,7 +56,7 @@ Android 8 / API 26
 فایل نصب و فایل بررسی صحت را کنار هم قرار دهید:
 
 ```text
-btc4fun-release.apk
+bitposta-release.apk
 SHA256SUMS
 ```
 
@@ -74,7 +74,7 @@ com.saebm.btcnfccustomer.debug
 نام نسخهٔ آزمایشی و پسوند نسخه:
 
 ```text
-btc4fun (Debug)
+bitposta (Debug)
 1.1.15-test-only
 ```
 
@@ -93,14 +93,14 @@ btc4fun (Debug)
 سرویس و ارائه‌دهندهٔ داده:
 
 ```text
-https://btc4.fun
+https://bitposta.com
 Blockstream
 ```
 
 مسیر استعلام برچسب، با نشانگر معتبر اختیاری برای صفحهٔ بعد:
 
 ```text
-GET https://btc4.fun/api/tags/{UID}
+GET https://bitposta.com/api/tags/{UID}
 after_txid
 ```
 
@@ -166,7 +166,7 @@ python3 tools/verify_apk.py debug
 خروجی آزمایشی:
 
 ```text
-app/build/outputs/apk/debug/btc4fun-debug.apk
+app/build/outputs/apk/debug/bitposta-debug.apk
 ```
 
 ساخت آفلاین فقط بعد از ذخیره‌شدن وابستگی‌ها ممکن است؛ اجرای تازهٔ میزبان خودکار نباید آفلاین باشد. وابستگی‌های زمان اجرا:

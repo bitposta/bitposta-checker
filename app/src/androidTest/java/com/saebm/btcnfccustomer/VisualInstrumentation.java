@@ -74,7 +74,7 @@ public final class VisualInstrumentation extends Instrumentation {
     }
     private void toolsChecks() throws Exception {
         invoke("showContact",new Class<?>[]{});verifyFonts(tagged("site-content"));
-        invoke("openContact",new Class<?>[]{String.class},"https://btc4.fun/contact");
+        invoke("openContact",new Class<?>[]{String.class},"https://bitposta.com/contact");
         AlertDialog dialog=(AlertDialog)field("consent");check(dialog!=null&&dialog.isShowing(),"contact explicit confirmation");
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).performClick();
         invoke("showInquiry",new Class<?>[]{});

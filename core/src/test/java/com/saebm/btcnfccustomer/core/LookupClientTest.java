@@ -20,18 +20,18 @@ public class LookupClientTest {
     static final long MONO = 1000L;
 
     static String fields() {
-        return "{\"address\":\"" + ADDRESS + "\",\"serial\":\"" + SERIAL + "\",\"lookup_url\":\"https://btc4.fun/s/" + SERIAL + "\"";
+        return "{\"address\":\"" + ADDRESS + "\",\"serial\":\"" + SERIAL + "\",\"lookup_url\":\"https://bitposta.com/s/" + SERIAL + "\"";
     }
     static String mapping() { return fields() + "}"; }
     static String full() {
         return fields() + ",\"balance\":{\"address\":\"" + ADDRESS + "\",\"confirmed_sats\":500,\"pending_delta_sats\":-50,"
             + "\"source\":\"https://blockstream.info/api\",\"fetched_at\":\"2026-10-31T23:59:30+00:00\"},"
             + "\"public\":{\"notes\":\"یادداشت نمونه\",\"site\":{\"key\":\"example-shop\",\"url\":\"https://example.com/\"},"
-            + "\"image_url\":\"https://btc4.fun/public-images/1.png\","
+            + "\"image_url\":\"https://bitposta.com/public-images/1.png\","
             + "\"links\":{\"instagram\":\"https://instagram.com/example\",\"telegram\":\"https://t.me/example\"}}}";
     }
     static LookupClient local(MockWebServer server) {
-        return LookupClient.forCalls(request -> Client.http().newCall(request.newBuilder().url(server.url(request.url().encodedPath() + (request.url().encodedQuery() == null ? "" : "?" + request.url().encodedQuery()))).build()), "https://btc4.fun/", () -> WALL, () -> MONO);
+        return LookupClient.forCalls(request -> Client.http().newCall(request.newBuilder().url(server.url(request.url().encodedPath() + (request.url().encodedQuery() == null ? "" : "?" + request.url().encodedQuery()))).build()), "https://bitposta.com/", () -> WALL, () -> MONO);
     }
     static MockResponse json(String body) { return new MockResponse().setHeader("Content-Type", "application/json").setBody(body); }
 
@@ -40,7 +40,7 @@ public class LookupClientTest {
             server.enqueue(json(mapping())); server.start();
             LookupClient.Lookup lookup = local(server).fetchByAddress(ADDRESS, false);
             assertEquals(ADDRESS, lookup.address); assertEquals(SERIAL, lookup.serial);
-            assertEquals("https://btc4.fun/s/" + SERIAL, lookup.lookupUrl);
+            assertEquals("https://bitposta.com/s/" + SERIAL, lookup.lookupUrl);
             assertNull(lookup.balance); assertNull(lookup.publicInfo);
             RecordedRequest request = server.takeRequest(1, TimeUnit.SECONDS);
             assertEquals("/api/addresses/" + ADDRESS, request.getPath()); assertEquals("GET", request.getMethod());
@@ -60,7 +60,7 @@ public class LookupClientTest {
             assertTrue(lookup.balance.freshness.fresh(MONO + 29999)); assertFalse(lookup.balance.freshness.fresh(MONO + 30000));
             assertTrue(lookup.balance.freshness.usable(MONO + 269999)); assertFalse(lookup.balance.freshness.usable(MONO + 270000));
             assertEquals("یادداشت نمونه", lookup.publicInfo.notes); assertEquals("example-shop", lookup.publicInfo.siteKey);
-            assertEquals("https://example.com/", lookup.publicInfo.siteUrl); assertEquals("https://btc4.fun/public-images/1.png", lookup.publicInfo.imageUrl);
+            assertEquals("https://example.com/", lookup.publicInfo.siteUrl); assertEquals("https://bitposta.com/public-images/1.png", lookup.publicInfo.imageUrl);
             assertEquals(2, lookup.publicInfo.links.size());
             assertEquals("instagram", lookup.publicInfo.links.get(0).key);
             assertEquals("https://instagram.com/example", lookup.publicInfo.links.get(0).url);
@@ -103,13 +103,13 @@ public class LookupClientTest {
         try (MockWebServer server = new MockWebServer()) {
             server.enqueue(json(fields() + ",\"balance\":{\"address\":\"" + ADDRESS + "\",\"confirmed_sats\":0,\"pending_delta_sats\":0,\"source\":\"x\",\"fetched_at\":\"2026-10-31T23:59:30Z\"},"
                 + "\"public\":{\"notes\":null,\"site\":{\"key\":null,\"url\":null},\"image_url\":null,\"links\":{"
-                + "\"\u0627\u06cc\u0645\u06cc\u0644\":\"mailto:09113458375@btc4.fun\","
+                + "\"\u0627\u06cc\u0645\u06cc\u0644\":\"mailto:09113458375@bitposta.com\","
                 + "\"\u062a\u0644\u0641\u0646\":\"tel:+989113458375\","
                 + "\"\u062a\u0644\u06af\u0631\u0627\u0645\":\"https://b_tc4fun_ir.t.me\"}}}"));
             server.start();
             LookupClient.Lookup lookup = local(server).fetchByAddress(ADDRESS, true);
             assertEquals(3, lookup.publicInfo.links.size());
-            assertEquals("mailto:09113458375@btc4.fun", lookup.publicInfo.links.get(0).url);
+            assertEquals("mailto:09113458375@bitposta.com", lookup.publicInfo.links.get(0).url);
             assertEquals("tel:+989113458375", lookup.publicInfo.links.get(1).url);
             assertEquals("https://b_tc4fun_ir.t.me", lookup.publicInfo.links.get(2).url);
         }
@@ -201,9 +201,9 @@ public class LookupClientTest {
         String[] bodies = {
             mapping().replace("\"address\":\"" + ADDRESS + "\"", "\"address\":\"" + other + "\""),
             full().replace("\"balance\":{\"address\":\"" + ADDRESS + "\"", "\"balance\":{\"address\":\"" + other + "\""),
-            mapping().replace("https://btc4.fun/s/" + SERIAL, "https://evil.example/s/" + SERIAL),
-            mapping().replace("https://btc4.fun/s/" + SERIAL, "http://btc4.fun/s/" + SERIAL),
-            mapping().replace("https://btc4.fun/s/" + SERIAL, "https://btc4.fun/s/26b1z00002"),
+            mapping().replace("https://bitposta.com/s/" + SERIAL, "https://evil.example/s/" + SERIAL),
+            mapping().replace("https://bitposta.com/s/" + SERIAL, "http://bitposta.com/s/" + SERIAL),
+            mapping().replace("https://bitposta.com/s/" + SERIAL, "https://bitposta.com/s/26b1z00002"),
             mapping().replace("\"serial\":\"" + SERIAL + "\"", "\"serial\":\"TEST-ONLY\""),
         };
         for (String body : bodies) {
@@ -214,7 +214,7 @@ public class LookupClientTest {
         }
         try (MockWebServer server = new MockWebServer()) {
             // Site echoes a different serial than the one requested.
-            server.enqueue(json(mapping().replace("\"serial\":\"" + SERIAL + "\"", "\"serial\":\"26b1z00002\"").replace("https://btc4.fun/s/" + SERIAL, "https://btc4.fun/s/26b1z00002"))); server.start();
+            server.enqueue(json(mapping().replace("\"serial\":\"" + SERIAL + "\"", "\"serial\":\"26b1z00002\"").replace("https://bitposta.com/s/" + SERIAL, "https://bitposta.com/s/26b1z00002"))); server.start();
             assertThrows(IOException.class, () -> local(server).fetchBySerial(SERIAL, true));
         }
     }
@@ -238,7 +238,7 @@ public class LookupClientTest {
     }
     @Test public void foreignImageHostIsDroppedNotShown() throws Exception {
         try (MockWebServer server = new MockWebServer()) {
-            server.enqueue(json(full().replace("https://btc4.fun/public-images/1.png", "https://cdn.example/1.png"))); server.start();
+            server.enqueue(json(full().replace("https://bitposta.com/public-images/1.png", "https://cdn.example/1.png"))); server.start();
             LookupClient.Lookup lookup = local(server).fetchByAddress(ADDRESS, true);
             assertNull(lookup.publicInfo.imageUrl); assertEquals("example-shop", lookup.publicInfo.siteKey);
         }
@@ -260,7 +260,7 @@ public class LookupClientTest {
     }
     @Test public void invalidInputNeverReachesTheNetwork() {
         AtomicInteger calls = new AtomicInteger();
-        LookupClient client = LookupClient.forCalls(request -> { calls.incrementAndGet(); return Client.http().newCall(request); }, "https://btc4.fun/");
+        LookupClient client = LookupClient.forCalls(request -> { calls.incrementAndGet(); return Client.http().newCall(request); }, "https://bitposta.com/");
         assertThrows(IllegalArgumentException.class, () -> client.fetchByAddress("bc1qtestonly", true));
         assertThrows(IllegalArgumentException.class, () -> client.fetchBySerial("TEST-ONLY", true));
         assertThrows(IllegalArgumentException.class, () -> client.fetchBySerial("26b1z00001/", true));

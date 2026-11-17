@@ -15,17 +15,17 @@ public final class RequestPolicy {
  public static URL url(String uid, String cursor) throws MalformedURLException {
   if (uid == null || !uid.matches("(?:[0-9A-F]{8}|[0-9A-F]{14}|[0-9A-F]{20})")) throw new IllegalArgumentException("Invalid UID");
   if (cursor != null && !cursor.matches("[0-9a-f]{64}")) throw new IllegalArgumentException("Invalid cursor");
-  return new URL("https://btc4.fun/api/tags/" + uid + (cursor == null ? "" : "?after_txid=" + cursor));
+  return new URL("https://bitposta.com/api/tags/" + uid + (cursor == null ? "" : "?after_txid=" + cursor));
  }
  public static boolean validSerial(String serial) { return serial != null && serial.matches(SERIAL_PATTERN); }
  /** Printed serial on the envelope, never the raw NFC UID. */
  public static URL walletUrl(String serial, boolean balance) throws MalformedURLException {
   if (!validSerial(serial)) throw new IllegalArgumentException("Invalid serial");
-  return new URL("https://btc4.fun/api/wallets/" + serial + (balance ? "?balance=1" : ""));
+  return new URL("https://bitposta.com/api/wallets/" + serial + (balance ? "?balance=1" : ""));
  }
  public static URL addressUrl(String address, boolean balance) throws MalformedURLException {
   if (!BitcoinAddress.isValid(address)) throw new IllegalArgumentException("Invalid address");
-  return new URL("https://btc4.fun/api/addresses/" + address + (balance ? "?balance=1" : ""));
+  return new URL("https://bitposta.com/api/addresses/" + address + (balance ? "?balance=1" : ""));
  }
  public static String read(InputStream in, int max, long deadline) throws IOException {
   ByteArrayOutputStream out = new ByteArrayOutputStream();

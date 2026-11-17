@@ -172,7 +172,7 @@ public final class MainActivity extends Activity {
         brand.addView(name, nameParams);
         TextView brandName = text(name, "بیت‌کوین برای سرگرمی", false);
         brandName.setTextSize(18); brandName.setPadding(0, 0, 0, 0); bold(brandName);
-        TextView subtitle = text(name, "btc4fun · btc.saeb.id.ir", true);
+        TextView subtitle = text(name, "bitposta · btc.saeb.id.ir", true);
         subtitle.setTextSize(12); subtitle.setTextColor(color(R.color.muted));
         subtitle.setGravity(Gravity.END); subtitle.setPadding(0, dp(2), 0, 0);
         divider(content);
@@ -710,7 +710,7 @@ public final class MainActivity extends Activity {
         text(safety, "کلید خصوصی و کلمات بازیابی ارسال نمی‌شوند. شناسهٔ برچسب را می‌توان کپی کرد؛ فقط با اجازهٔ شما فرستاده می‌شود. این بررسی خصوصی نیست و اصل بودن یا مالکیت را ثابت نمی‌کند.", false);
         text(safety, "دیدن موجودی یا شناسهٔ برچسب تضمین نمی‌کند که فقط شما به پول دسترسی دارید.", false);
         text(safety, "برنامه خودکار بررسی یا دوباره تلاش نمی‌کند. سایت آدرس عمومی را برای دریافت اطلاعات به بلاک‌استریم می‌فرستد.", false).setTextColor(color(R.color.muted));
-        text(safety, "btc4.fun → Blockstream", true).setTextColor(color(R.color.accent));
+        text(safety, "bitposta.com → Blockstream", true).setTextColor(color(R.color.accent));
         button("بازگشت به بررسی پاکت", this::showInquiry).setTag("learn-back");
         button("دیدن نسخهٔ تازه در سایت", () -> openPublic("")).setTag("learn-site");
         updateButtons();
@@ -765,7 +765,7 @@ public final class MainActivity extends Activity {
     }
     private void openContact(String url) {
         // Only bundled public destinations, never user or tag-derived URI components.
-        if (!url.matches("mailto:[A-Za-z0-9_.+-]+@btc4\\.fun|https://btc\\.saeb\\.id\\.ir/(?:contact)?|https://t\\.me/[A-Za-z0-9_]+|https://www\\.instagram\\.com/[A-Za-z0-9_.]+/|https://x\\.com/[A-Za-z0-9_]+")) return;
+        if (!url.matches("mailto:[A-Za-z0-9_.+-]+@bitposta\\.com|https://btc\\.saeb\\.id\\.ir/(?:contact)?|https://t\\.me/[A-Za-z0-9_.]+|https://www\\.instagram\\.com/[A-Za-z0-9_.]+/|https://x\\.com/[A-Za-z0-9_.]+")) return;
         consent = new AlertDialog.Builder(this).setTitle("باز کردن راه ارتباط")
             .setMessage("برنامهٔ ایمیل یا مرورگر باز می‌شود. مقصد اطلاعات اتصال شما را می‌بیند. شمارهٔ برچسب و اطلاعات کیف پول ارسال نمی‌شوند. هیچ راز کیف پولی نفرستید.")
             .setNegativeButton("لغو", (d,w) -> consent=null)

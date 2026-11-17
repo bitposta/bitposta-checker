@@ -99,7 +99,7 @@ class CustomerCopy(unittest.TestCase):
         source = SOURCE.read_text()
         self.assertIn('https://btc.saeb.id.ir/', source)
         self.assertIn('PUBLIC_SITE + page', source)
-        self.assertIn('https://btc4.fun/api', (ROOT / 'core/src/main/java/com/saebm/btcnfccustomer/core/RequestPolicy.java').read_text())
+        self.assertIn('https://bitposta.com/api', (ROOT / 'core/src/main/java/com/saebm/btcnfccustomer/core/RequestPolicy.java').read_text())
 
 
 if __name__ == '__main__':

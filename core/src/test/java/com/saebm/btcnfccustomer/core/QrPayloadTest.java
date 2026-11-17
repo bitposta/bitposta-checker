@@ -7,7 +7,7 @@ public class QrPayloadTest {
     private static final String ADDRESS = "bc1qqqqsyqcyq5rqwzqfpg9scrgwpugpzysn4v0345";
 
     @Test public void classifiesFourExactHttpsDomainsAndReturnsSafeUrl() {
-        for (String host : new String[]{"btc.saeb.id.ir", "btc4.fun", "bitcoin4.fun", "b.tc4fun.ir"}) {
+        for (String host : new String[]{"btc.saeb.id.ir", "bitposta.com", "bitposta.com", "bitposta.com"}) {
             QrPayload.Result result = QrPayload.classify("https://" + host + "/guide");
             assertEquals(QrPayload.Kind.ALLOWLISTED_HTTPS_URL, result.kind);
             assertEquals("https://" + host + "/guide", result.value);

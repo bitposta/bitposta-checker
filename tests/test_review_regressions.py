@@ -13,7 +13,7 @@ spec = importlib.util.spec_from_file_location('public_sync', ROOT/'tools/sync_pu
 assert spec is not None and spec.loader is not None
 sync = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(sync)
-CONTACT = '<a href="mailto:help@btc4.fun">mail</a><a href="https://t.me/example">tg</a><a href="https://www.instagram.com/example/">ig</a><a href="https://x.com/example">x</a>'
+CONTACT = '<a href="mailto:help@bitposta.com">mail</a><a href="https://t.me/example">tg</a><a href="https://www.instagram.com/example/">ig</a><a href="https://x.com/example">x</a>'
 
 class ReviewRegressions(unittest.TestCase):
     def test_android26_core_uses_available_integer_operations(self):
@@ -27,7 +27,7 @@ class ReviewRegressions(unittest.TestCase):
 
     def test_contact_extraction_executes_and_rejects_invalid_sources(self):
         links = sync.contact_links(CONTACT)
-        self.assertEqual(links['email'], 'mailto:help@btc4.fun')
+        self.assertEqual(links['email'], 'mailto:help@bitposta.com')
         self.assertEqual(links['telegram'], 'https://t.me/example')
         self.assertEqual(len(links), 6)
         for bad in ['', CONTACT + '<a href="https://t.me/other">duplicate</a>', CONTACT.replace('https://x.com/example', 'http://x.com/example')]:

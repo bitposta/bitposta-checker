@@ -58,8 +58,8 @@ class CiContract(unittest.TestCase):
   self.assertIn("github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.signed_release",text)
   self.assertIn('needs: tests-lint-debug',text)
   for variant in ['debug', 'release']:
-   self.assertIn(f'app/build/outputs/apk/{variant}/btc4fun-{variant}.apk',text)
-   self.assertIn(f'name: btc4fun-{variant}-${{{{ github.sha }}}}',text)
+   self.assertIn(f'app/build/outputs/apk/{variant}/bitposta-{variant}.apk',text)
+   self.assertIn(f'name: bitposta-{variant}-${{{{ github.sha }}}}',text)
   self.assertIn('default: false',text)
   self.assertIn('validate-wrappers: true',text)
   self.assertIn(':core:test :app:testDebugUnitTest :app:lintDebug :app:assembleDebug',text)
@@ -91,7 +91,7 @@ class CiContract(unittest.TestCase):
   publish=release.split('      - name: Publish verified tag release\n',1)[1].split('      - uses:',1)[0]
   self.assertIn("if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}",publish)
   self.assertLess(release.index('python3 tools/verify_apk.py release'),release.index('Publish verified tag release'))
-  for required in ['gh release create "$RELEASE_TAG"', '--verify-tag', '--draft=false', '--prerelease=false', '--latest', '--notes-file .github/release-notes.md', 'app/build/outputs/apk/release/btc4fun-release.apk', 'app/build/outputs/apk/release/SHA256SUMS']:
+  for required in ['gh release create "$RELEASE_TAG"', '--verify-tag', '--draft=false', '--prerelease=false', '--latest', '--notes-file .github/release-notes.md', 'app/build/outputs/apk/release/bitposta-release.apk', 'app/build/outputs/apk/release/SHA256SUMS']:
    self.assertIn(required,publish)
   self.assertNotIn('debug',publish)
   self.assertNotIn('--generate-notes',publish)
@@ -113,8 +113,8 @@ class CiContract(unittest.TestCase):
    self.assertEqual(result.returncode,0,result.stderr)
    commands=[json.loads(line) for line in calls.read_text().splitlines()]
    self.assertEqual(commands[0],['release','create',tag,
-     'app/build/outputs/apk/release/btc4fun-release.apk','app/build/outputs/apk/release/SHA256SUMS',
-     '--verify-tag','--title','btc4fun '+tag,'--notes-file','.github/release-notes.md',
+     'app/build/outputs/apk/release/bitposta-release.apk','app/build/outputs/apk/release/SHA256SUMS',
+     '--verify-tag','--title','bitposta '+tag,'--notes-file','.github/release-notes.md',
      '--draft=false','--prerelease=false','--latest'])
    self.assertEqual(commands[1][:3],['release','view',tag])
  def test_release_cannot_fall_back_to_debug_identity(self):
@@ -123,9 +123,9 @@ class CiContract(unittest.TestCase):
   self.assertIn("applicationIdSuffix '.debug'",text)
   self.assertIn('throw new GradleException',text)
   self.assertNotIn('signingConfig signingConfigs.debug',text)
-  self.assertIn("resValue 'string', 'app_name', 'btc4fun'",text)
-  self.assertIn("resValue 'string', 'app_name', 'btc4fun (Debug)'",text)
-  self.assertIn('btc4fun-${variant.buildType.name}.apk',text)
+  self.assertIn("resValue 'string', 'app_name', 'bitposta'",text)
+  self.assertIn("resValue 'string', 'app_name', 'bitposta (Debug)'",text)
+  self.assertIn('bitposta-${variant.buildType.name}.apk',text)
   self.assertIn('ANDROID_RELEASE_STORE_PASSWORD',text)
   self.assertIn("versionCode 21; versionName '1.1.15'",text)
 if __name__=='__main__':unittest.main()
