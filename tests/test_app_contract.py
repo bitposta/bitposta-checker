@@ -48,11 +48,10 @@ class AppContract(unittest.TestCase):
   self.assertIn('readerOn = false', text)
  def test_offline_pages_and_exact_payment_snapshot(self):
   assets=ROOT/'app/src/main/assets/public'
-  for page in ['guide','terms','payment','security','costs']:
+  for page in ['guide','terms','payment','security']:
    self.assertTrue((assets/(page+'.txt')).is_file(), page+' offline content missing')
   payment=(assets/'payment.txt').read_text()
   for value in ['6219861819062158','930560611828006181828601','صائب ملایی']:
    self.assertIn(value,payment)
-  self.assertIn('https://btc.saeb.id.ir/costs',(assets/'costs.txt').read_text())
   self.assertTrue((assets/'manifest.json').is_file())
 if __name__=='__main__':unittest.main()

@@ -16,9 +16,14 @@ class ContactDestinationContract(unittest.TestCase):
             self.assertIsNotNone(re.fullmatch(pattern, url), url)
         for url in ['https://evil.example/contact', 'https://btc.saeb.id.ir.evil.example/', 'https://btc.saeb.id.ir/?uid=123', 'https://btc4.fun/contact']:
             self.assertIsNone(re.fullmatch(pattern, url), url)
-        instrumentation = (ROOT / 'app/src/androidTest/java/com/saebm/btcnfccustomer/MarketInteractionChecks.java').read_text()
-        self.assertIn(links['form'], instrumentation)
-        self.assertIn('contact-form', instrumentation)
+        # The deleted market instrumentation used to repeat the allowlist proof; the
+        # real contract is asserted above. What remains to pin is that showContact
+        # renders one control per bundled link, each carrying a contact-<key> tag.
+        show_contact = source.split('private void showContact()', 1)[1].split('private void openContact', 1)[0]
+        self.assertIn('contact-links.json', show_contact)
+        self.assertIn('contact.setTag("contact-" + keys[i])', show_contact)
+        keys = set(json.loads((ROOT / 'app/src/main/assets/public/contact-links.json').read_text()))
+        self.assertEqual(keys, {'website', 'form', 'email', 'telegram', 'instagram', 'x'})
 
 if __name__ == '__main__':
     unittest.main()

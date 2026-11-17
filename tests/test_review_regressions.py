@@ -18,8 +18,12 @@ CONTACT = '<a href="mailto:help@btc4.fun">mail</a><a href="https://t.me/example"
 class ReviewRegressions(unittest.TestCase):
     def test_android26_core_uses_available_integer_operations(self):
         root = ROOT/'core/src/main/java/com/saebm/btcnfccustomer/core'
-        self.assertNotIn('BigInteger.TWO', (root/'QuoteCalculator.java').read_text())
-        self.assertNotIn('.intValueExact()', (root/'MarketResponse.java').read_text())
+        # The pricing classes are gone; any core file that returns must still be API-26 safe.
+        for path in sorted(root.glob('*.java')):
+            text = path.read_text(encoding='utf-8')
+            with self.subTest(name=path.name):
+                self.assertNotIn('BigInteger.TWO', text)
+                self.assertNotIn('.intValueExact()', text)
 
     def test_contact_extraction_executes_and_rejects_invalid_sources(self):
         links = sync.contact_links(CONTACT)

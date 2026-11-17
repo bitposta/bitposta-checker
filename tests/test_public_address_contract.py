@@ -105,13 +105,14 @@ class PublicAddressContract(unittest.TestCase):
         self.assertIn('pageButton("learn-guide", "guide"', learn)
         self.assertIn("آموزش؛ پاکت و بیت‌کوین چیست", learn)
         contact = method_body(source, "showContactGroup")
-        for tag in ("contact-payment", "contact-costs", "contact-support", "contact-back"):
+        # The owner removed the costs section from the app, so no costs control remains.
+        for tag in ("contact-payment", "contact-support", "contact-back"):
             with self.subTest(tag=tag):
                 self.assertIn(tag, contact)
-        self.assertLess(contact.index("contact-payment"), contact.index("contact-costs"))
-        self.assertLess(contact.index("contact-costs"), contact.index("contact-support"))
+        self.assertNotIn("contact-costs", contact)
+        self.assertNotIn("showCosts", source)
+        self.assertLess(contact.index("contact-payment"), contact.index("contact-support"))
         self.assertIn('pageButton("contact-payment", "payment")', contact)
-        self.assertIn("this::showCosts", contact)
         self.assertIn("this::showContact", contact)
 
     def test_home_screen_has_exactly_one_entry_per_group(self):
@@ -137,7 +138,7 @@ class PublicAddressContract(unittest.TestCase):
             with self.subTest(method=method):
                 self.assertIn("innerScreen(", method_body(source, method))
         # Costs keeps its own prologue but must also leave inquiry mode.
-        self.assertIn("inquiry=false", method_body(source, "showCosts"))
+        self.assertNotIn("showCosts", source)
 
     def test_public_page_list_is_one_source_for_all_entry_points(self):
         source = ACTIVITY.read_text()
@@ -146,7 +147,7 @@ class PublicAddressContract(unittest.TestCase):
         assert declaration is not None
         self.assertEqual(
             declaration.group(1).replace('"', "").replace(" ", ""),
-            "guide,terms,payment,security,costs",
+            "guide,terms,payment,security",
         )
         # No screen re-hardcodes a list; each caller asks the one predicate.
         self.assertEqual(source.count("isPublicPage("), 4)  # declaration + pageButton + showPublic + openPublic

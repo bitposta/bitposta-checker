@@ -10,7 +10,7 @@ import re
 
 
 ALLOWED = ('base.html', 'contact.html', 'guide.html', 'terms.html', 'security.html', '_wallet_safety.html', '_purchase_warning.html', '_payment_details.html')
-PAGES = ('guide', 'terms', 'payment', 'security', 'costs')
+PAGES = ('guide', 'terms', 'payment', 'security')
 
 def check_snapshot(target):
     manifest = json.loads((target/'manifest.json').read_text(encoding='utf-8'))
@@ -97,10 +97,9 @@ def main():
     else:
         pages['security']=extract('<main>'+env.get_template('_wallet_safety.html').render()+'</main>')
         security_source='_wallet_safety.html (security page not yet present)'
-    pages['costs']='برای جدول هزینه و محاسبهٔ مبلغ دلخواه، بخش قیمت و هزینه‌ها را باز کنید و دکمهٔ دریافت نرخ را بزنید. تغییر سرعت و برچسب و محاسبه محلی‌اند؛ مبلغ و بودجه ارسال نمی‌شوند. پس از یک دقیقه نرخ قدیمی است و پس از پنج دقیقه دریافت دوباره لازم است. این برآورد تعهد پرداخت نیست.\n\nhttps://btc.saeb.id.ir/costs\n'
     stamp=datetime.now(timezone.utc).isoformat(timespec='seconds')
     digest=hashlib.sha256(json.dumps(sources,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
-    disclaimer='نسخهٔ آفلاینِ متن عمومی وب‌سایت؛ ممکن است تغییر کرده باشد. پیش از هر پرداخت، اطلاعات فعلی سایت، شمارهٔ مقصد و نام صاحب حساب را دوباره بررسی کنید. نرخ‌ها فقط با انتخاب دکمهٔ دریافت نرخ در بخش هزینه‌ها دریافت می‌شوند. اشاره‌های متن به «سایت» دربارهٔ وب‌سایت است؛ برنامه پس از رضایت شما استعلام شبکه می‌فرستد. تصاویر و قابلیت‌های تعاملی وب در این نسخهٔ متنی موجود نیستند.'
+    disclaimer='نسخهٔ آفلاینِ متن عمومی وب‌سایت؛ ممکن است تغییر کرده باشد. پیش از هر پرداخت، اطلاعات فعلی سایت، شمارهٔ مقصد و نام صاحب حساب را دوباره بررسی کنید. این برنامه جدول هزینه و برآورد قیمت ندارد؛ عددهای هزینه فقط در صفحهٔ هزینه‌های سایت هستند. اشاره‌های متن به «سایت» دربارهٔ وب‌سایت است؛ برنامه پس از رضایت شما استعلام شبکه می‌فرستد. تصاویر و قابلیت‌های تعاملی وب در این نسخهٔ متنی موجود نیستند.'
     # Reject missing/ambiguous contact input before touching the existing snapshot.
     links = json.dumps(contact_links(sources['contact.html']), ensure_ascii=False, indent=2)+'\n'
     hashes={}

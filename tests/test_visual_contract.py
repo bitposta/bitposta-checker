@@ -63,11 +63,12 @@ class VisualContract(unittest.TestCase):
         for contract in ['site-content', 'brand-mark', 'scan-section', 'result-section', 'group-section',
                          'group-learn-button', 'group-contact-button',
                          'learn-terms', 'learn-security', 'learn-guide', 'learn-back', 'learn-site',
-                         'contact-payment', 'contact-costs', 'contact-support', 'contact-back',
+                         'contact-payment', 'contact-support', 'contact-back',
                          'R.font.sahel_regular', 'R.font.sahel_bold', 'requestApplyInsets()', 'dp(32)']:
             self.assertIn(contract, source)
-        # The collapsible link list and its toggle were removed outright.
-        for gone in ['public-section', 'secondary-links-toggle']:
+        # The collapsible link list, its toggle and the whole costs section were removed outright.
+        for gone in ['public-section', 'secondary-links-toggle', 'showCosts',
+                     'home-costs', 'contact-costs']:
             self.assertNotIn(gone, source)
 
     def test_group_contract_labels_and_accessibility(self):
@@ -75,11 +76,11 @@ class VisualContract(unittest.TestCase):
         self.assertIn('setLayoutDirection(View.LAYOUT_DIRECTION_RTL)', source)
         self.assertIn('setMinHeight(dp(48))', source)
         self.assertIn('setContentDescription(label + "؛ باز کردن فهرست")', source)
-        # Order: terms first, then security, then guide — plus payment, costs, support.
+        # Order: terms first, then security, then guide — and payment before support.
         self.assertLess(source.index('pageButton("learn-terms"'), source.index('pageButton("learn-security"'))
         self.assertLess(source.index('pageButton("learn-security"'), source.index('pageButton("learn-guide"'))
-        self.assertLess(source.index('"contact-payment"'), source.index('"contact-costs"'))
-        self.assertLess(source.index('"contact-costs"'), source.index('"contact-support"'))
+        self.assertLess(source.index('"contact-payment"'), source.index('"contact-support"'))
+        self.assertNotIn('contact-costs', source)
         icon = ET.parse(RES / 'drawable/ic_customer.xml').getroot()
         groups = icon.findall('group')
         self.assertTrue(any(g.get(A + 'rotation') == '-12' for g in groups), 'site mark must tilt counterclockwise')

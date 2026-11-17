@@ -1,24 +1,23 @@
 {
   "version": 1,
-  "fetched_at": "2026-11-05T13:44:29+00:00",
-  "source_sha256": "e79d75a0743375e24d5fa326a0173413eb51d961f57ed2d8f1393031592802a9",
+  "fetched_at": "2026-11-17T08:15:28+00:00",
+  "source_sha256": "0bf20ae21022bb911fd8a87886ce22310271a71e69ba9aaaf70103b11e3cf9d6",
   "security_source": "security.html",
   "sources": {
-    "base.html": "fba1d5dcecb8177caf822858bd34e0bd1d09690604bf2860fe4aa12dbe07456d",
+    "base.html": "d694bdf6eb9bcdecd80d14410139efbb98ac5f1ee513202a381b1ae54791c597",
     "contact.html": "bbb7d3f7b6ab0e0451c013df56975de84cde357d70d34826dbbf491c2cf9a16e",
-    "guide.html": "07e54088497ef8c58284ce6ce39135fe66f13605ea8289298adb7c137e0d667f",
-    "terms.html": "65883fd35ca6dd684830bd05a71ea346c99f5cc37b5804d7f148f8540914b63f",
-    "security.html": "643dba96c4a54c85620576b99f203ce772ea94e6eb66cdcdf77bd7807f97a1df",
+    "guide.html": "7917078c668880f1bf6b105bebe0b289776efca420e4ea34e62bcd1d3c6d9b3f",
+    "terms.html": "e8ed62f15dfba4e615a984ec09c13788d0cf3ed1e59a3eb8f09e79d10f7cb5da",
+    "security.html": "b4a68f25820374e22b3fad717f9dc19d9213e6a9911a405760656fcea16c0a7e",
     "_wallet_safety.html": "ccd9ee524873c37f5752464b639149d450c577ffedffb2bfc588dd8506608bb9",
     "_purchase_warning.html": "3851a25f2a2e975a4c08f912ee1fc7a276e4d72e3f025e401313d917f59f2dd1",
     "_payment_details.html": "73759baafd8f3e8ab8491ddcf1404db3605b84f875071fb6af0c8dd56bde5da5"
   },
   "pages": {
-    "guide": "75b3e3570a6689e07cb51db384e2cca04a11ff2eda7c0fda39c8d6d882cdf129",
-    "terms": "13fd58983c262d1cbff37456cd653c10c2664f63b3fdd7c6d2563f1d90d0ecc1",
-    "payment": "46a0cf51759e16998656ef1cab8db15b0c1c366be80c6713aeb4a0bd8078fcae",
-    "security": "ecd767d8851ea77139a750c5623ad1260c5b0719f6682ccf92ba0c5a630af1bf",
-    "costs": "29d76ce22d5efa7e00f6ae6b88709476fba10d5693cbcfce1b295ee1c311962f"
+    "guide": "0fcee558e74b15bdeb2e2ec0830dc49074cd06b4d7a334ba1a3bac2528119f25",
+    "terms": "aca8fab3ac61868de5aaef611531f80fdb34fd0536ac4df806e669b0ce878dfc",
+    "payment": "671a92e6a48139e90ec23f74a40d49c9d928e028d383eaabde3a6f9036f52a1d",
+    "security": "37b6b0e1daf1762e5a54f1b6d5b052079f038ebf12be76236453ae3d10be9a86"
   },
   "images_bundled": false,
   "prices_bundled": false,

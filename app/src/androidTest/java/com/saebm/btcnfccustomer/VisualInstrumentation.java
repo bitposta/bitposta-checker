@@ -74,53 +74,9 @@ public final class VisualInstrumentation extends Instrumentation {
     }
     private void toolsChecks() throws Exception {
         invoke("showContact",new Class<?>[]{});verifyFonts(tagged("site-content"));
-        check(field("marketClient")==null,"contact must not fetch");
         invoke("openContact",new Class<?>[]{String.class},"https://btc4.fun/contact");
         AlertDialog dialog=(AlertDialog)field("consent");check(dialog!=null&&dialog.isShowing(),"contact explicit confirmation");
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).performClick();
-        invoke("showCosts",new Class<?>[]{});
-        check(field("marketClient")==null,"opening costs must not fetch");
-        check(!((Button)field("calculate")).isEnabled(),"no quote without rates");
-        String json;
-        try(java.io.InputStream in=getContext().getAssets().open("market.json")) {
-            json=com.saebm.btcnfccustomer.core.RequestPolicy.read(in,262144,System.nanoTime()+2_000_000_000L);
-        }
-        long wall=java.time.OffsetDateTime.parse("2026-11-01T00:00:00+00:00").toInstant().toEpochMilli();
-        long mono=android.os.SystemClock.elapsedRealtime();
-        com.saebm.btcnfccustomer.core.MarketResponse data=com.saebm.btcnfccustomer.core.MarketResponse.parse(json,wall,mono);
-        setField("market",data);invoke("renderMarket",new Class<?>[]{});
-        for(String speed:new String[]{"economy","medium","fast"}) for(boolean tag:new boolean[]{false,true}) {
-            setField("speed",speed);setField("includeTag",tag);invoke("renderMarket",new Class<?>[]{});
-            check(((Button)tagged("speed-"+speed)).getText().toString().contains("انتخاب‌شده"),"speed has visible selected label");
-            check(((Button)tagged("tag-choice")).getText().toString().contains(tag?"با برچسب":"بدون برچسب"),"tag control exposes state");
-            for(boolean budget:new boolean[]{false,true}) {
-                setField("budgetMode",budget);
-                ((android.widget.EditText)field("amount")).setText(budget?"500000":"3000");
-                invoke("calculateQuote",new Class<?>[]{});
-                String expected=data.option(speed,tag).calculator.calculate(budget?"500000":"3000",budget).get("total_toman").getAsString();
-                boolean found=false;
-                for(View v:views((View)field("customResult"))) if(v instanceof TextView && ((TextView)v).getText().toString().equals(expected)) found=true;
-                check(found,"exact quote shown for each option/mode");
-            }
-            check(field("marketClient")==null,"local changes must not fetch");
-        }
-        verifyFonts(tagged("site-content"));
-        com.saebm.btcnfccustomer.core.Latest gate=(com.saebm.btcnfccustomer.core.Latest)field("marketGate");long token=gate.begin();
-        invoke("showContact",new Class<?>[]{});check(!gate.accepts(token),"leaving rejects late market response");
-        invoke("showCosts",new Class<?>[]{});
-        java.util.concurrent.atomic.AtomicLong clock=new java.util.concurrent.atomic.AtomicLong(1000);
-        setField("marketClock",(java.util.function.LongSupplier)clock::get);
-        setField("market",com.saebm.btcnfccustomer.core.MarketResponse.parse(json,wall+299000,1000));
-        invoke("renderMarket",new Class<?>[]{});
-        check(((Button)field("calculate")).isEnabled(),"pre-expiry calculator enabled");
-        ((android.widget.EditText)field("amount")).setText("3000");
-        invoke("calculateQuote",new Class<?>[]{});
-        check(((ViewGroup)field("customResult")).getChildCount()>1,"pre-expiry result populated");
-        clock.set(2000);
-        invoke("updateMarketAge",new Class<?>[]{});check(!((Button)field("calculate")).isEnabled(),"expired rate blocks calculation");
-        check(((ViewGroup)field("customResult")).getChildCount()==1,"expiry removes result");
-        check(((ViewGroup)field("marketTable")).getChildCount()==0,"expiry removes table");
-        setField("marketClock",(java.util.function.LongSupplier)android.os.SystemClock::elapsedRealtime);
         invoke("showInquiry",new Class<?>[]{});
     }
     @Override public void onStart() {
@@ -133,7 +89,6 @@ public final class VisualInstrumentation extends Instrumentation {
                 runOnMainSync(() -> {
                     try {
                         if (capture.equals("contact")) invoke("showContact",new Class<?>[]{});
-                        if (capture.equals("costs")) invoke("showCosts",new Class<?>[]{});
                         if (capture.equals("payment")) invoke("showPublic", new Class<?>[]{String.class,String.class}, "payment", "اطلاعات پرداخت");
                         if (capture.equals("learn")) invoke("showLearnGroup",new Class<?>[]{});
                         if (capture.equals("groups")) invoke("showContactGroup",new Class<?>[]{});
@@ -181,9 +136,6 @@ public final class VisualInstrumentation extends Instrumentation {
                     for(String label:new String[]{"راهنمای پاکت","شرایط و مسئولیت‌ها","اطلاعات پرداخت","امنیت و نگهداری","ارتباط با ما"})
                         for(View v:views(content)) if(v instanceof Button && ((Button)v).getText().toString().equals(label)) directLink=true;
                     check(!directLink,"no direct terms/payment/security page buttons on home");
-                    // The owner asked for the costs screen to be reachable straight from home.
-                    Button homeCosts=(Button)tagged("home-costs");
-                    check(homeCosts!=null && homeCosts.getText().toString().equals("قیمت و هزینه‌ها"),"home exposes the costs screen");
                     Button requestButton=(Button)tagged("request-button");
                     check(requestButton!=null,"request button semantic locator missing");
                     check(requestButton.getText().toString().equals("دیدن موجودی و تراکنش‌ها"),"request button label is unnumbered contract");
@@ -206,13 +158,14 @@ public final class VisualInstrumentation extends Instrumentation {
                     check(posTerms>=0 && posTerms<posSecurity && posSecurity<posGuide,"learn group order is terms, security, guide");
                     check(tagged("learn-back")!=null && tagged("learn-site")!=null,"learn group back and open-site controls present");
                     check(((Button)tagged("learn-guide")).getText().toString().equals("آموزش؛ پاکت و بیت‌کوین چیست"),"guide button label states what it covers");
-                    // Contact group: payment, costs, support, back — in that order.
+                    // Contact group: payment, support, back — the costs section was removed.
                     invoke("showContactGroup",new Class<?>[]{});
                     View contactPage=tagged("site-content"); verifyFonts(contactPage);
                     check(contactPage.getLayoutDirection()==View.LAYOUT_DIRECTION_RTL,"contact group stays RTL");
-                    check(tagged("contact-payment")!=null && tagged("contact-costs")!=null && tagged("contact-support")!=null && tagged("contact-back")!=null,"contact group controls present");
-                    int posPayment=indexOfChild(contactPage,"contact-payment"), posCosts=indexOfChild(contactPage,"contact-costs"), posSupport=indexOfChild(contactPage,"contact-support");
-                    check(posPayment>=0 && posPayment<posCosts && posCosts<posSupport,"contact group order is payment, costs, support");
+                    check(tagged("contact-payment")!=null && tagged("contact-support")!=null && tagged("contact-back")!=null,"contact group controls present");
+                    check(tagged("contact-costs")==null,"the costs control must be gone from the contact group");
+                    int posPayment=indexOfChild(contactPage,"contact-payment"), posSupport=indexOfChild(contactPage,"contact-support");
+                    check(posPayment>=0 && posPayment<posSupport,"contact group order is payment, support");
                     invoke("showInquiry",new Class<?>[]{});
                     check(field("client")==null,"opening screen must not create network client");
                     verifyFonts(content);
@@ -246,7 +199,6 @@ public final class VisualInstrumentation extends Instrumentation {
                 } catch(Throwable e) { failure.set(e); }
             });
             if (failure.get()!=null) throw failure.get();
-            new MarketInteractionChecks(this, activity).run();
             report.putString("stream","PASS: "+assertions+" UI assertions; layout, Sahel, offline paragraphs, consent/no-network\n");
             finish(Activity.RESULT_OK,report);
         } catch(Throwable e) {
